@@ -13,7 +13,6 @@ gem 'rails', '~> 7.0.2', '>= 7.0.2.3'
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails'
-  gem 'sqlite3'
 end
 
 group :development do
