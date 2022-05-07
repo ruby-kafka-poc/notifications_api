@@ -28,10 +28,6 @@
 .idea/
 .DS_Store
 
-bin/
-
 tmp/
-
 log/
-
 vendor/
