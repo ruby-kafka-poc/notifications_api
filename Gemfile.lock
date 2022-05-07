@@ -1,6 +1,14 @@
+GIT
+  remote: https://github.com/ruby-kafka-poc/rails_kafka_integration.git
+  revision: 01c20a6589a94bcfbcd3ac8f1da8eb1a4786a8d5
+  specs:
+    kafka_rails_integration (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.2.0)
+      concurrent-ruby (~> 1.0)
     actioncable (7.0.2.4)
       actionpack (= 7.0.2.4)
       activesupport (= 7.0.2.4)
@@ -67,7 +75,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     ast (2.4.2)
-    brakeman (5.2.2)
+    brakeman (5.2.3)
     builder (3.2.4)
     bullet (7.0.1)
       activesupport (>= 3.0.0)
@@ -88,6 +96,45 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    dry-configurable (0.15.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.6)
+    dry-container (0.9.0)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.13, >= 0.13.0)
+    dry-core (0.7.1)
+      concurrent-ruby (~> 1.0)
+    dry-events (0.3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5)
+    dry-inflector (0.2.1)
+    dry-initializer (3.1.1)
+    dry-logic (1.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.5, >= 0.5)
+    dry-monitor (0.5.0)
+      dry-configurable (~> 0.13, >= 0.13.0)
+      dry-core (~> 0.5, >= 0.5)
+      dry-events (~> 0.2)
+    dry-schema (1.9.1)
+      concurrent-ruby (~> 1.0)
+      dry-configurable (~> 0.13, >= 0.13.0)
+      dry-core (~> 0.5, >= 0.5)
+      dry-initializer (~> 3.0)
+      dry-logic (~> 1.0)
+      dry-types (~> 1.5)
+    dry-types (1.5.1)
+      concurrent-ruby (~> 1.0)
+      dry-container (~> 0.3)
+      dry-core (~> 0.5, >= 0.5)
+      dry-inflector (~> 0.1, >= 0.1.2)
+      dry-logic (~> 1.0, >= 1.0.2)
+    dry-validation (1.8.0)
+      concurrent-ruby (~> 1.0)
+      dry-container (~> 0.7, >= 0.7.1)
+      dry-core (~> 0.5, >= 0.5)
+      dry-initializer (~> 3.0)
+      dry-schema (~> 1.9, >= 1.9.1)
     erubi (1.10.0)
     erubis (2.7.0)
     factory_bot (6.2.1)
@@ -97,6 +144,7 @@ GEM
       railties (>= 5.0.0)
     faker (2.20.0)
       i18n (>= 1.8.11, < 2)
+    ffi (1.15.5)
     formatador (1.1.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -106,6 +154,14 @@ GEM
     irb (1.4.1)
       reline (>= 0.3.0)
     json (2.6.1)
+    karafka (2.0.0.alpha6)
+      dry-configurable (~> 0.13)
+      dry-monitor (~> 0.5)
+      dry-validation (~> 1.7)
+      rdkafka (>= 0.10)
+      thor (>= 0.20)
+      waterdrop (>= 2.3.0, < 3.0.0)
+      zeitwerk (~> 2.3)
     loofah (2.17.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -114,6 +170,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.0)
     minitest (5.15.0)
     net-imap (0.2.3)
       digest
@@ -130,7 +187,9 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.4-x86_64-darwin)
+    nokogiri (1.13.5-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.5-x86_64-linux)
       racc (~> 1.4)
     parallel (1.22.1)
     parser (3.1.2.0)
@@ -178,6 +237,10 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
+    rdkafka (0.11.1)
+      ffi (~> 1.15)
+      mini_portile2 (~> 2.6)
+      rake (> 12)
     regexp_parser (2.3.1)
     reline (0.3.1)
       io-console (~> 0.5)
@@ -204,12 +267,12 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
-    rubocop (1.28.2)
+    rubocop (1.29.0)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
-      rexml
+      rexml (>= 3.2.5, < 4.0)
       rubocop-ast (>= 1.17.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
@@ -237,6 +300,13 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
     uniform_notifier (1.16.0)
+    waterdrop (2.3.0)
+      concurrent-ruby (>= 1.1)
+      dry-configurable (~> 0.13)
+      dry-monitor (~> 0.5)
+      dry-validation (~> 1.7)
+      rdkafka (>= 0.10)
+      zeitwerk (~> 2.3)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -244,8 +314,10 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
+  aasm
   brakeman
   bullet
   bundler-audit
@@ -254,6 +326,8 @@ DEPENDENCIES
   factory_bot_rails
   faker
   formatador
+  kafka_rails_integration!
+  karafka (>= 2.0.0.alpha2)
   pg
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
