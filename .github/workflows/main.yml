@@ -41,20 +41,16 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - name: Install PostgreSQL client
-        run: |
-          sudo apt-get -yqq install libpq-dev
-
-      - name: ls
-        run: ls
-
       - name: Build App
         env:
           PGHOST: localhost
           RAILS_ENV: test
-        run: bin/rails db:create db:migrate
+        run: bundle exec rails db:create db:migrate
 
       - name: Run the default task
         env:
           PGHOST: localhost
-        run: bundle exec rake
+          RAILS_ENV: test
+          CI: true
+          COVERAGE: true
+        run: bundle exec rake ci:default

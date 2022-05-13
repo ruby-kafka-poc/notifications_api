@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/ruby-kafka-poc/rails_kafka_integration.git
-  revision: 01c20a6589a94bcfbcd3ac8f1da8eb1a4786a8d5
+  revision: 2e3dd39b1bff1cce7987329dadc0665f2593ca02
+  branch: allow_params
   specs:
     kafka_rails_integration (0.1.0)
 
@@ -75,6 +76,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
     ast (2.4.2)
+    bcrypt (3.1.17)
     brakeman (5.2.3)
     builder (3.2.4)
     bullet (7.0.1)
@@ -92,6 +94,7 @@ GEM
       reline (>= 0.2.7)
     diff-lcs (1.5.0)
     digest (3.1.0)
+    docile (1.4.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -154,6 +157,7 @@ GEM
     irb (1.4.1)
       reline (>= 0.3.0)
     json (2.6.1)
+    jwt (2.3.0)
     karafka (2.0.0.alpha6)
       dry-configurable (~> 0.13)
       dry-monitor (~> 0.5)
@@ -199,6 +203,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.2.4)
@@ -291,6 +297,12 @@ GEM
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     sexp_processor (4.16.1)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     spring (4.0.0)
     strscan (3.0.1)
     thor (1.2.1)
@@ -318,6 +330,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  bcrypt
   brakeman
   bullet
   bundler-audit
@@ -326,10 +339,12 @@ DEPENDENCIES
   factory_bot_rails
   faker
   formatador
+  jwt
   kafka_rails_integration!
   karafka (>= 2.0.0.alpha2)
   pg
   puma (~> 5.0)
+  rack-cors
   rails (~> 7.0.2, >= 7.0.2.3)
   rails_best_practices
   rspec
@@ -339,6 +354,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rake
   rubocop-rspec
+  simplecov
   spring
   timecop
 
