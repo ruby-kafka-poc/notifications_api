@@ -3,13 +3,22 @@
 require 'postmark'
 
 class PostmarkClient
-  def deliver(template_alias, to, options = {})
+  def deliver(code, to, options = {})
+    raise PostmarkError, '`to` is required' unless to
+    raise PostmarkError, '`code` is required' unless code
+
     client.deliver_with_template(
-      from: ENV.fetch('POSTMARK_FROM', nil),
+      from:,
       to:,
-      template_alias: template_alias,
+      template_alias: code,
       template_model: options
     )
+  end
+
+  private
+
+  def from
+    @from ||= ENV.fetch('POSTMARK_FROM', nil)
   end
 
   def client
