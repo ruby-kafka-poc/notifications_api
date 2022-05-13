@@ -31,3 +31,8 @@
 tmp/
 log/
 vendor/
+.gitsecret/keys/random_seed
+!*.secret
+config/secrets.yml
+coverage/
+.private_env

@@ -18,6 +18,7 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'vendor/**/*'
+    - 'db/schema.rb'
   TargetRubyVersion: 3.1.0
 
 Style/Documentation:
@@ -26,7 +27,7 @@ Style/Documentation:
 Metrics/BlockLength:
   IgnoredMethods: ['describe', 'context']
   Exclude:
-    - 'Rakefile'
     - '**/*.rake'
+    - 'Rakefile'
+    - 'config/environments/development.rb'
     - 'test/**/*.rb'
-    - 'db/schema.rb'
