@@ -15,6 +15,7 @@ gem 'kafka_rails_integration',
 # ref: 'cc89338' # branch: 'added_lib' # tag: '2.0.1'
 gem 'karafka', '>= 2.0.0.alpha2'
 gem 'pg'
+gem 'postmark'
 gem 'puma', '~> 5.0'
 gem 'rack-cors'
 gem 'rails', '~> 7.0.2', '>= 7.0.2.3'

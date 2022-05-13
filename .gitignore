@@ -35,3 +35,4 @@ vendor/
 !*.secret
 config/secrets.yml
 coverage/
+.private_env
