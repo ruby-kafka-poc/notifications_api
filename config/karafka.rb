@@ -7,7 +7,7 @@ class KarafkaApp < Karafka::App
   setup do |config|
     config.kafka = { 'bootstrap.servers': '127.0.0.1:9092' }
     config.client_id = 'example_app'
-    config.concurrency = 2
+    config.concurrency = 1
     config.max_wait_time = 500 # 0.5 second
     # Recreate consumers with each batch. This will allow Rails code reload to work in the
     # development mode. Otherwise Karafka process would not be aware of code changes
@@ -32,4 +32,16 @@ class KarafkaApp < Karafka::App
   #     consumer VisitsConsumer
   #   end
   # end
+  routes.draw do
+    # This needs to match queues defined in your ActiveJobs
+    active_job_topic :default
+
+    topic 'customer_created' do
+      consumer CustomerCreatedConsumer
+    end
+
+    topic 'customer_edited' do
+      consumer CustomerCreatedConsumer
+    end
+  end
 end

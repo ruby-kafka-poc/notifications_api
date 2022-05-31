@@ -1,0 +1,16 @@
+default: &default
+  bootstrap_servers: <%= ENV['BOOTSTRAP_SERVERS'] || 'localhost:9092' %>
+  security_protocol: <%= ENV['SECURITY_PROTOCOL'] %>
+  sasl_mechanism: <%= ENV['SASL_MECHANISM'] %>
+  sasl_username: <%= ENV['SASL_USERNAME'] %>
+  sasl_password: <%= ENV['SASL_PASSWORD'] %>
+
+test:
+  <<: *default
+  bootstrap_servers: 'localhost:9092'
+
+development:
+  <<: *default
+
+production:
+  <<: *default
