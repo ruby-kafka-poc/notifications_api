@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-class InvitationConsumer < ApplicationConsumer
-  def initialize
-    super
-    self.topic = 'CustomerCreated'
-  end
+class CustomerCreatedConsumer < ApplicationConsumer
   def consume
-    debugger
+    # debugger
   end
 end
 
