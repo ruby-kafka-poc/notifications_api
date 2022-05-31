@@ -21,6 +21,10 @@ gem 'rack-cors'
 gem 'rails', '~> 7.0.2', '>= 7.0.2.3'
 gem 'ruby-kafka'
 
+# bundler audit
+gem 'nokogiri', '>= 1.13.6'
+gem 'rack', '>= 2.2.3.1'
+
 group :development, :test do
   gem 'bullet'
   gem 'debug', platforms: %i[mri mingw x64_mingw]

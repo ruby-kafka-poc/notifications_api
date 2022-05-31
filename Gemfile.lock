@@ -287,9 +287,11 @@ DEPENDENCIES
   formatador
   jwt
   kafka_rails_integration!
+  nokogiri (>= 1.13.6)
   pg
   postmark
   puma (~> 5.0)
+  rack (>= 2.2.3.1)
   rack-cors
   rails (~> 7.0.2, >= 7.0.2.3)
   rails_best_practices
