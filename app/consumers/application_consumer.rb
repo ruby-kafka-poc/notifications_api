@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
-class ApplicationConsumer < Karafka::BaseConsumer
+class ApplicationConsumer
+  attr_reader :tbd
 end
