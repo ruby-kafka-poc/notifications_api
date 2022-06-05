@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/ruby-kafka-poc/rails_kafka_integration.git
-  revision: fde10e9ccbc3820c47df065f717eb0f24d521af6
-  ref: fde10e9
+  revision: 5cd125e371095b87576d9c87b018ffa912274d5a
+  ref: 5cd125e
   specs:
     kafka_rails_integration (0.1.0)
 
@@ -89,6 +89,10 @@ GEM
       sexp_processor
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    daemons (1.4.1)
+    daemons-rails (1.2.1)
+      daemons
+      multi_json (~> 1.0)
     debug (1.5.0)
       irb (>= 1.3.6)
       reline (>= 0.2.7)
@@ -129,6 +133,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
+    multi_json (1.15.0)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -280,6 +285,7 @@ DEPENDENCIES
   brakeman
   bullet
   bundler-audit
+  daemons-rails
   debug
   dotenv-rails
   factory_bot_rails

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CustomerCreatedConsumer < ApplicationConsumer
+class OrderCreatedConsumer < Application
   group_id :a
-  topic :customer_created
+  topic :order_created
 
   def consume(message)
     # #<Kafka::FetchedMessage:0x000000010a4ee930
@@ -18,12 +18,11 @@ class CustomerCreatedConsumer < ApplicationConsumer
     #     @offset_delta=0,
     #     @timestamp_delta=0,
     #     @value=
-    #       "{\"entity\":\"Customer\",\"object\":{\"id\":31,\"name\":\"Theron Metz\",\"last_name\":\"Zulauf\",\"email\":\"selma.smith@hermiston.name\",\"created_at\":\"2022-05-28T20:34:01.126Z\",\"updated_at\":\"2022-05-28T20:34:01.126Z\"},\"action\":\"created\"}">,
+    #       "{\"entity\":\"Order\",\"object\":{\"id\":31,\"name\":\"Theron Metz\",\"last_name\":\"Zulauf\",\"email\":\"selma.smith@hermiston.name\",\"created_at\":\"2022-05-28T20:34:01.126Z\",\"updated_at\":\"2022-05-28T20:34:01.126Z\"},\"action\":\"created\"}">,
     #     @partition=0,
-    #     @topic="customer_created">
+    #     @topic="order_created">
     #
     puts("offset #{message.offset}, key #{message.key}, value #{message.value}")
-    Rails.logger.info ("offset #{message.offset}, key #{message.key}, value #{message.value}")
   end
 end
 

@@ -17,7 +17,10 @@ module CustomersApi
 
     config.api_only = true
 
-    Dir[File.expand_path('../lib/**/*.rb', __dir__)].each { |file| require file }
+    Dir[
+      File.expand_path('../lib/**/*.rb', __dir__),
+      File.expand_path('../app/consumers/*.rb', __dir__)
+    ].each { |file| require file }
     config.middleware.use(KafkaRailsIntegration::Middlewares::DeliverMessages)
   end
 end

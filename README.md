@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+bundle exec rake daemon:consumer_control:start
+bundle exec rake daemon:consumer_control:stop
+bundle exec rake daemon:consumer_control:restart
+bundle exec rake daemon:consumer_control:status
