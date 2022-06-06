@@ -2,8 +2,8 @@
 
 class ApplicationConsumer < KafkaRailsIntegration::Consumer
   def initialize
-    puts "Starting #{self.class.name} consumer"
+    Rails.logger.debug { "Starting #{self.class.name} consumer" }
     super
-    puts "#{self.class.name} consumer ready"
+    Rails.logger.debug { "#{self.class.name} consumer ready" }
   end
 end
