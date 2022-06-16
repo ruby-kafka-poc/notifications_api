@@ -15,6 +15,16 @@ class PostmarkClient
     )
   end
 
+  def templates(code, organization_id, tenant = 'default')
+    client.get_templates[1]
+          .pluck(:alias)
+          .select do |t|
+      t == code ||
+        t == "#{tenant}-#{code}" ||
+        (organization_id && t == "#{tenant}-#{organization_id}-#{code}")
+    end.sort
+  end
+
   private
 
   def from

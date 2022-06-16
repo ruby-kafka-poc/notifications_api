@@ -1,36 +1,26 @@
 # frozen_string_literal: true
 
 class CustomerCreatedConsumer < ApplicationConsumer
-  group_id :a
-  topic :customer_created
+  def initialize(topic)
+    super
+    self.base_template = 'test-email1'
+  end
 
-  # #<Kafka::FetchedMessage:0x000000010a4ee930
-  # @message=
-  #   #<Kafka::Protocol::Record:0x000000010a4e49d0
-  #   @attributes=0,
-  #     @bytesize=218,
-  #     @create_time=2022-05-28 17:34:01.141 -0300,
-  #   @headers={},
-  #     @is_control_record=false,
-  #     @key=nil,
-  #     @offset=0,
-  #     @offset_delta=0,
-  #     @timestamp_delta=0,
-  #     @value=
-  #       "{\"entity\":\"Customer\",\"object\":{\"id\":31,\
-  # "name\":\"Theron Metz\",\
-  # "last_name\":\"Zulauf\",\
-  # "email\":\"selma.smith@hermiston.name\",\
-  # "created_at\":\"2022-05-28T20:34:01.126Z\",
-  # \"updated_at\":\"2022-05-28T20:34:01.126Z\"},
-  # \"action\":\"created\"}">,
-  #     @partition=0,
-  #     @topic="customer_created">
-  #
-  def consume(message)
-    Rails.logger.debug { "offset #{message.offset}, key #{message.key}, value #{message.value}" }
-    Rails.logger.info("offset #{message.offset}, key #{message.key}, value #{message.value}")
+  def receive(message)
+    define_template!(message.raw_payload.with_indifferent_access)
+    model = super
+    client.deliver(template, model.email, model.args) if template
+
+    model
+  end
+
+  private
+
+  def define_template!(payload)
+    self.template = client.templates(
+      base_template,
+      payload[:organization_id],
+      payload[:tenant] || DEFAULT_TENANT
+    ).last
   end
 end
-
-# https://github.com/ayyoubjadoo/Karafka-Example/blob/master/app/consumers/callbacked_consumer.rb

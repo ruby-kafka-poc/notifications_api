@@ -10,8 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_07_135151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "email_notifications", force: :cascade do |t|
+    t.string "tenant", default: "default", null: false
+    t.integer "organization_id"
+    t.string "email", null: false
+    t.string "postmark_template", null: false
+    t.string "status", null: false
+    t.integer "kafka_partition", null: false
+    t.string "kafka_topic", null: false
+    t.jsonb "args", default: "{}", null: false
+    t.jsonb "jsonb", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kafka_partition", "kafka_topic"], name: "index_email_notifications_on_kafka_partition_and_kafka_topic", unique: true
+  end
 
 end

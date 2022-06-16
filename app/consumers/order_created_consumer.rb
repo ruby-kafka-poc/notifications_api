@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class OrderCreatedConsumer < Application
-  group_id :a
-  topic :order_created
+class OrderCreatedConsumer < ApplicationConsumer
+  # group_id :a
+  # topic :order_created
 
   def consume(message)
     Rails.logger.debug { "offset #{message.offset}, key #{message.key}, value #{message.value}" }
