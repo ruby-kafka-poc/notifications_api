@@ -31,3 +31,10 @@ Metrics/BlockLength:
     - 'Rakefile'
     - 'config/environments/development.rb'
     - 'test/**/*.rb'
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*.rb'
