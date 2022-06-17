@@ -8,11 +8,11 @@ class ApplicationConsumer < Karafka::BaseConsumer
 
   def consume
     messages.each do |m|
-      begin
-        receive(m)
-      rescue Exception => e
-        Rails.logger.error e.message
-      end
+      receive(m)
+    rescue StandardError => e
+      raise if Rails.env.test?
+
+      Rails.logger.error e.message
     end
   end
 
@@ -48,9 +48,8 @@ class ApplicationConsumer < Karafka::BaseConsumer
       organization_id: payload[:organization_id],
       email: object[:email],
       postmark_template: template,
-      status: :created,
       kafka_offset: message.offset, kafka_topic: topic.name,
-      args: object
+      status: :created, args: object
     )
   end
 
@@ -75,19 +74,23 @@ class ApplicationConsumer < Karafka::BaseConsumer
     Thread.current.thread_variable_set(:receive_message_id, SecureRandom.hex(6))
 
     Rails.logger.debug do
-      <<~EOS.squish
+      <<~MSG.squish
         [consumer] (#{Thread.current.thread_variable_get(:receive_message_id)})
         Message Received: offset #{message.offset}, key #{message.key}, value #{message.raw_payload}
-      EOS
+      MSG
     end
 
-    yield.tap do |model|
-      Rails.logger.debug do
-        <<~EOS.squish
-          [consumer] (#{Thread.current.thread_variable_get(:receive_message_id)})
-          skipping, repeated message? #{model.errors.full_messages}
-        EOS
-      end unless model.valid?
+    yield.tap { |model| log_error(model) }
+  end
+
+  def log_error(model)
+    return if model.valid?
+
+    Rails.logger.debug do
+      <<~MSG.squish
+        [consumer] (#{Thread.current.thread_variable_get(:receive_message_id)})
+        skipping, repeated message? #{model.errors.full_messages}
+      MSG
     end
   end
 end

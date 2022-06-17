@@ -7,7 +7,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     postmark_template { Faker::TvShows::RickAndMorty.character.underscore.downcase }
     status { 'created' }
-    sequence(:kafka_partition)
+    sequence(:kafka_offset)
     kafka_topic { Faker::TvShows::StrangerThings.character.underscore.downcase }
     args { { bar: 'bar', foo: 'foo' } }
   end

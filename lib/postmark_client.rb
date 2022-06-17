@@ -4,21 +4,13 @@ require 'postmark'
 
 class PostmarkClient
   def deliver(code, to, options = {})
-    raise PostmarkError, '`to` is required' unless to
-    raise PostmarkError, '`code` is required' unless code
+    raise PostmarkError, '`to` is required' unless URI::MailTo::EMAIL_REGEXP.match?(to)
+    raise PostmarkError, '`code` is required' if code.blank?
 
     response = deliver_log(code, from, to, options) do
-      begin
-        client.deliver_with_template(
-          from:, to:,
-          template_alias: code,
-          template_model: options
-        )
-      rescue Postmark::ApiInputError => e
-        { error_code: 1, message: e.message }
-      rescue Postmark::InactiveRecipientError => e
-        { error_code: 1, message: e.message }
-      end
+      client.deliver_with_template(from:, to:, template_alias: code, template_model: options)
+    rescue Postmark::ApiInputError, Postmark::InactiveRecipientError => e
+      { error_code: 1, message: e.message }
     end
 
     PostmarkResponse.from_api(response)
@@ -44,23 +36,25 @@ class PostmarkClient
     @client ||= Postmark::ApiClient.new(ENV.fetch('POSTMARK_API_KEY', nil))
   end
 
+  # rubocop:disable Metrics/MethodLength
   def deliver_log(code, from, to, options)
     Rails.logger.debug do
-      <<~EOS.squish
-          [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
-          Delivering email: '#{code}' from '#{from}', to '#{to}', args #{options}
-      EOS
+      <<~MSG.squish
+        [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
+        Delivering email: '#{code}' from '#{from}', to '#{to}', args #{options}
+      MSG
     end
 
-    response = yield
+    response = yield || {}
 
     Rails.logger.debug do
-      <<~EOS.squish
-          [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
-          Delivered email: #{response[:error_code]}-#{response[:message]}
-      EOS
+      <<~MSG.squish
+        [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
+        Delivered email: #{response[:error_code]}-#{response[:message]}
+      MSG
     end
 
     response
   end
+  # rubocop:enable Metrics/MethodLength
 end

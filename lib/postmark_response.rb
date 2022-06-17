@@ -13,7 +13,7 @@ class PostmarkResponse
   def self.from_api(response)
     PostmarkResponse.new(
       response[:message_id],
-      response[:error_code] == 0 ? :sent : :failed,
+      (response[:error_code])&.zero? ? :sent : :failed,
       response[:error_code],
       response[:message]
     )
