@@ -46,13 +46,19 @@ class PostmarkClient
 
   def deliver_log(code, from, to, options)
     Rails.logger.debug do
-      "[email] (#{Thread.current.object_id}) Delivering email: '#{code}' from '#{from}', to '#{to}', args #{options}"
+      <<~EOS.squish
+          [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
+          Delivering email: '#{code}' from '#{from}', to '#{to}', args #{options}
+      EOS
     end
 
     response = yield
 
     Rails.logger.debug do
-      "[email] (#{Thread.current.object_id}) Delivered email: #{response[:error_code]}-#{response[:message]}"
+      <<~EOS.squish
+          [email_delivery] (#{Thread.current.thread_variable_get(:receive_message_id)})
+          Delivered email: #{response[:error_code]}-#{response[:message]}
+      EOS
     end
 
     response

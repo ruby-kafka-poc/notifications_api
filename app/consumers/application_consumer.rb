@@ -17,15 +17,17 @@ class ApplicationConsumer < Karafka::BaseConsumer
   end
 
   def receive(message)
-    Rails.logger.debug do
-      "Message Received: offset #{message.offset}, key #{message.key}, value #{message.raw_payload}"
+    log_receive(message) do
+      template = defined_template(message.payload.with_indifferent_access)
+      model = register_model(message, template)
+
+      if model.valid?
+        resp = email_client.deliver(template, model.email, model.args)
+        update_status(model, resp)
+      end
+
+      model
     end
-    template = defined_template(message.payload.with_indifferent_access)
-    model = register_model(message, template)
-
-    resp = email_client.deliver(template, model.email, model.args)
-
-    update_status(model, resp)
   end
 
   private
@@ -67,5 +69,25 @@ class ApplicationConsumer < Karafka::BaseConsumer
 
   def email_client
     @email_client ||= PostmarkClient.new
+  end
+
+  def log_receive(message)
+    Thread.current.thread_variable_set(:receive_message_id, SecureRandom.hex(6))
+
+    Rails.logger.debug do
+      <<~EOS.squish
+        [consumer] (#{Thread.current.thread_variable_get(:receive_message_id)})
+        Message Received: offset #{message.offset}, key #{message.key}, value #{message.raw_payload}
+      EOS
+    end
+
+    yield.tap do |model|
+      Rails.logger.debug do
+        <<~EOS.squish
+          [consumer] (#{Thread.current.thread_variable_get(:receive_message_id)})
+          skipping, repeated message? #{model.errors.full_messages}
+        EOS
+      end unless model.valid?
+    end
   end
 end
