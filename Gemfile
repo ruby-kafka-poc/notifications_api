@@ -7,7 +7,6 @@ ruby '3.1.2'
 
 gem 'aasm'
 gem 'bcrypt'
-gem 'daemons-rails'
 gem 'dotenv-rails'
 gem 'jwt'
 gem 'kafka_rails_integration',
