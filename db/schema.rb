@@ -19,14 +19,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_07_135151) do
     t.integer "organization_id"
     t.string "email", null: false
     t.string "postmark_template", null: false
+    t.string "postmark_message_id"
+    t.string "error_description"
     t.string "status", null: false
-    t.integer "kafka_partition", null: false
+    t.integer "kafka_offset", null: false
     t.string "kafka_topic", null: false
     t.jsonb "args", default: "{}", null: false
     t.jsonb "jsonb", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["kafka_partition", "kafka_topic"], name: "index_email_notifications_on_kafka_partition_and_kafka_topic", unique: true
+    t.index ["kafka_offset", "kafka_topic"], name: "index_email_notifications_on_kafka_offset_and_kafka_topic", unique: true
   end
 
 end

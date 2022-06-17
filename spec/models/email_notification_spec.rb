@@ -10,7 +10,7 @@ RSpec.describe EmailNotification, type: :model do
       status: 'created',
       postmark_template: 'template',
       kafka_topic: 'a_topic',
-      kafka_partition: 10
+      kafka_offset: 10
     )
   end
 
@@ -28,12 +28,12 @@ RSpec.describe EmailNotification, type: :model do
     expect(email_notification.errors.full_messages).to include("Status can't be blank")
   end
 
-  it 'is not valid with a same partition and topic' do
+  it 'is not valid with a same offset and topic' do
     email_notification.assign_attributes(
       kafka_topic: prev_email_notification.kafka_topic,
-      kafka_partition: prev_email_notification.kafka_partition
+      kafka_offset: prev_email_notification.kafka_offset
     )
     expect(email_notification.valid?).to be_falsey
-    expect(email_notification.errors.full_messages).to include('Kafka topic and partition already exists')
+    expect(email_notification.errors.full_messages).to include('Kafka topic and offset already exists')
   end
 end
