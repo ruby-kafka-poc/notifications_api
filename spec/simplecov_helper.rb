@@ -24,5 +24,5 @@ SimpleCov.start 'rails' do
   end
 
   track_files '**/*.rb'
-  minimum_coverage line: 90, branch: 80
+  minimum_coverage line: 90, branch: 60
 end
