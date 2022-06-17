@@ -1,8 +1,0 @@
-# frozen_string_literal: true
-# #!/usr/bin/env ruby
-# # frozen_string_literal: true
-#
-# results = []
-# Dir["#{File.dirname(__FILE__)}/*_ctl"].each { |f| results << `ruby #{f} #{ARGV.first}` }
-# results.compact_blank!
-# puts results.join unless results.empty?
