@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This API act as a consumer for kafka. It expect events, and when it happens, it send an email using Postmark.
 
-Things you may want to cover:
+To configure events you need to add it:
 
-* Ruby version
+notifications_api/karafka.rb:44
 
-* System dependencies
+```ruby
+topic 'topic_name' do
+  consumer ConsumerClassName
+end
+```
 
-* Configuration
+and create the consumer 
 
-* Database creation
+notifications_api/app/consumers/ConsumerClassName.rb
 
-* Database initialization
+```ruby
+class CustomerCreatedConsumer < ApplicationConsumer
+  def initialize
+    super
+    self.base_template = 'test-email1' # <-- This is the alias of the postmark template to use
+  end
+end
+```
 
-* How to run the test suite
+The Event need to provide an `email` attribute, otherwise will fail.
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Lastly the API will save each mail sent, and the kafka topic+partition to avoid send it again. So if the service is down, we can start from a previous state without the risk of send it twice.
+Also we can consult with a REST api the status of the email (Processed, Delivered, Opened, Failed)

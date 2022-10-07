@@ -1,14 +1,14 @@
 GIT
   remote: https://github.com/ruby-kafka-poc/rails_kafka_integration.git
-  revision: 5cd125e371095b87576d9c87b018ffa912274d5a
-  ref: 5cd125e
+  revision: 49c5f5fa3120b5f5081d6d270c67d8757487617e
+  ref: 49c5f5f
   specs:
     kafka_rails_integration (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (5.3.1)
+    aasm (5.4.0)
       concurrent-ruby (~> 1.0)
     actioncable (7.0.4)
       actionpack (= 7.0.4)

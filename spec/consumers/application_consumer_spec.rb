@@ -28,7 +28,7 @@ describe 'ApplicationConsumer' do
     allow(subject).to receive(:messages).and_return(
       [
         Karafka::Messages::Message.new(
-          '{"entity": "Customer", "object":  {"id": 9, "email": "a@b.com", "action": "created"}}',
+          '{"entity": "Customer", "id": 9, "email": "a@b.com", "action": "created"}',
           Karafka::Messages::Metadata.new(
             offset: 0,
             partition: 0,

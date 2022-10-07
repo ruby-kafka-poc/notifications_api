@@ -41,16 +41,20 @@ class ApplicationConsumer < Karafka::BaseConsumer
   end
 
   def register_model(message, template)
-    payload = message.payload.with_indifferent_access
-    object = payload[:object] || {}
-    EmailNotification.create(
+    payload = message.payload.with_indifferent_access.transform_keys(&:downcase) || {}
+
+    model = EmailNotification.new(
       tenant: payload[:tenant] || DEFAULT_TENANT,
       organization_id: payload[:organization_id],
-      email: object[:email],
+      email: payload[:email],
       postmark_template: template,
       kafka_offset: message.offset, kafka_topic: topic.name,
-      status: :created, args: object
+      status: :created, args: payload
     )
+
+    log_error(model) unless model.valid?
+    model.save!
+    model
   end
 
   def update_status(model, resp)

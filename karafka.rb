@@ -36,8 +36,12 @@ class KarafkaApp < Karafka::App
       # This needs to match queues defined in your ActiveJobs
       active_job_topic :default
 
-      topic :customer_created do
+      topic 'pksqlc-q9jvmCUSTOMER_CREATED' do
         consumer CustomerCreatedConsumer
+      end
+
+      topic 'pksqlc-q9jvmORDERS_CREATED' do
+        consumer OrderCreatedConsumer
       end
     end
   end
